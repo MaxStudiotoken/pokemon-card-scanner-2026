@@ -34,6 +34,43 @@
             padding: 20px;
         }
 
+        /* ===== LANGUAGE SWITCHER ===== */
+        .lang-switcher {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: rgba(13, 13, 13, 0.92);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 204, 0, 0.15);
+            padding: 10px 20px;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 6px 12px;
+        }
+        .lang-switcher span {
+            cursor: pointer;
+            font-size: 0.95rem;
+            padding: 4px 12px;
+            border-radius: 30px;
+            transition: 0.3s;
+            color: #a0a8b8;
+            font-weight: 600;
+            letter-spacing: 0.3px;
+        }
+        .lang-switcher span:hover {
+            background: rgba(255, 204, 0, 0.15);
+            color: #fff;
+        }
+        .lang-switcher span.active {
+            background: #ffcc00;
+            color: #0d0d0d;
+            box-shadow: 0 0 20px rgba(255, 204, 0, 0.3);
+        }
+        .lang-switcher .flag {
+            margin-right: 4px;
+        }
+
         /* ===== HERO CON CANVAS ===== */
         .hero {
             position: relative;
@@ -42,7 +79,7 @@
             text-align: center;
             border-bottom: 4px solid #ffcc00;
             overflow: hidden;
-            min-height: 460px;
+            min-height: 480px;
         }
 
         #pokemonCanvas {
@@ -59,6 +96,23 @@
         .hero-content {
             position: relative;
             z-index: 2;
+        }
+
+        /* ===== LOGO GRANDE ===== */
+        .logo {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #ffcc00;
+            box-shadow: 0 0 50px rgba(255, 204, 0, 0.25);
+            margin: 0 auto 20px;
+            display: block;
+            background: #0d0d0d;
+            transition: transform 0.3s;
+        }
+        .logo:hover {
+            transform: scale(1.05);
         }
 
         .hero h1 {
@@ -360,6 +414,14 @@
             .features-grid {
                 grid-template-columns: 1fr 1fr;
             }
+            .logo {
+                width: 90px;
+                height: 90px;
+            }
+            .lang-switcher span {
+                font-size: 0.8rem;
+                padding: 2px 8px;
+            }
         }
 
         @media (max-width: 480px) {
@@ -372,103 +434,121 @@
             .download-box h2 {
                 font-size: 1.6em;
             }
+            .logo {
+                width: 70px;
+                height: 70px;
+            }
         }
     </style>
 </head>
 <body>
 
+    <!-- ===== LANGUAGE SWITCHER ===== -->
+    <div class="lang-switcher" id="languageSwitcher">
+        <span data-lang="es" class="active"><span class="flag">🇪🇸</span> ES</span>
+        <span data-lang="en"><span class="flag">🇬🇧</span> EN</span>
+        <span data-lang="fr"><span class="flag">🇫🇷</span> FR</span>
+        <span data-lang="it"><span class="flag">🇮🇹</span> IT</span>
+        <span data-lang="zh"><span class="flag">🇨🇳</span> 中文</span>
+        <span data-lang="ru"><span class="flag">🇷🇺</span> RU</span>
+        <span data-lang="de"><span class="flag">🇩🇪</span> DE</span>
+        <span data-lang="pt"><span class="flag">🇧🇷</span> PT</span>
+    </div>
+
     <!-- ====== HERO CON ANIMACIÓN DE CARTAS ====== -->
     <section class="hero">
         <canvas id="pokemonCanvas"></canvas>
         <div class="hero-content container">
-            <h1>🃏 Pokemon Card Scanner</h1>
-            <p class="subtitle">Escanea cartas Pokémon y descubre su valor real</p>
-            <div class="tagline">📸 Foto → 💰 Precio en segundos</div>
+            <!-- LOGO GRANDE: pokemon_scanner.png -->
+            <img src="pokemon_scanner.png" alt="Pokemon Card Scanner Logo" class="logo" />
+            <h1 data-i18n="title">🃏 Pokemon Card Scanner</h1>
+            <p class="subtitle" data-i18n="subtitle">Escanea cartas Pokémon y descubre su valor real</p>
+            <div class="tagline" data-i18n="tagline">📸 Foto → 💰 Precio en segundos</div>
             <br />
-            <button class="scan-btn" id="scanBtn">🔍 Escanear carta</button>
+            <button class="scan-btn" id="scanBtn" data-i18n="scan_btn">🔍 Escanear carta</button>
         </div>
     </section>
 
     <div class="container">
 
         <!-- ====== DESCRIPCIÓN COMPLETA ====== -->
-        <h2 class="section-title">🔍 ¿Qué hace esta app?</h2>
+        <h2 class="section-title" data-i18n="what_title">🔍 ¿Qué hace esta app?</h2>
         <div class="desc-box">
-            <p>
+            <p data-i18n="desc_p1">
                 <strong>Pokemon Card Scanner</strong> te ayuda a identificar cartas Pokémon de forma rápida y sencilla. Solo haz una foto o escanea tu carta para obtener su información principal, descripción y una referencia de su precio actual de mercado, todo en una sola app.
             </p>
-            <p>
+            <p data-i18n="desc_p2">
                 Ideal para coleccionistas, vendedores, compradores y fans del mundo Pokémon que quieren saber qué tienen entre manos antes de tomar una decisión. Desde cartas comunes hasta piezas más buscadas, esta app te permite consultar datos útiles en segundos y evitar vender barato una carta que podría tener mucho valor.
             </p>
             <ul>
-                <li>📸 Escanea cartas fácilmente con tu cámara</li>
-                <li>📄 Ver información y descripción de la carta</li>
-                <li>💰 Consultar su precio actual de referencia</li>
-                <li>🛡️ Revisar cartas de tu colección con más seguridad</li>
-                <li>💎 Detectar posibles cartas valiosas que tenías olvidadas</li>
+                <li data-i18n="li1">📸 Escanea cartas fácilmente con tu cámara</li>
+                <li data-i18n="li2">📄 Ver información y descripción de la carta</li>
+                <li data-i18n="li3">💰 Consultar su precio actual de referencia</li>
+                <li data-i18n="li4">🛡️ Revisar cartas de tu colección con más seguridad</li>
+                <li data-i18n="li5">💎 Detectar posibles cartas valiosas que tenías olvidadas</li>
             </ul>
         </div>
 
         <!-- ====== IDEAL PARA ====== -->
         <div class="ideal-box">
-            <span><strong>✅</strong> Coleccionistas</span>
-            <span><strong>✅</strong> Compradores en tiendas o mercadillos</span>
-            <span><strong>✅</strong> Vendedores online</span>
-            <span><strong>✅</strong> Fans que quieren descubrir el valor de sus cartas</span>
+            <span data-i18n="ideal1"><strong>✅</strong> Coleccionistas</span>
+            <span data-i18n="ideal2"><strong>✅</strong> Compradores en tiendas o mercadillos</span>
+            <span data-i18n="ideal3"><strong>✅</strong> Vendedores online</span>
+            <span data-i18n="ideal4"><strong>✅</strong> Fans que quieren descubrir el valor de sus cartas</span>
         </div>
 
         <!-- ====== FUNCIONES PRINCIPALES ====== -->
-        <h2 class="section-title">⚡ Funciones principales</h2>
+        <h2 class="section-title" data-i18n="features_title">⚡ Funciones principales</h2>
         <div class="features-grid">
             <div class="feature-card">
                 <span class="icon">📸</span>
-                <h3>Escaneo rápido</h3>
-                <p>Usa la cámara para escanear la carta al instante.</p>
+                <h3 data-i18n="f1_title">Escaneo rápido</h3>
+                <p data-i18n="f1_desc">Usa la cámara para escanear la carta al instante.</p>
             </div>
             <div class="feature-card">
                 <span class="icon">⚡</span>
-                <h3>Resultados en segundos</h3>
-                <p>Obtén información y precio sin esperas.</p>
+                <h3 data-i18n="f2_title">Resultados en segundos</h3>
+                <p data-i18n="f2_desc">Obtén información y precio sin esperas.</p>
             </div>
             <div class="feature-card">
                 <span class="icon">💰</span>
-                <h3>Precio de mercado</h3>
-                <p>Referencia actual basada en ventas reales.</p>
+                <h3 data-i18n="f3_title">Precio de mercado</h3>
+                <p data-i18n="f3_desc">Referencia actual basada en ventas reales.</p>
             </div>
             <div class="feature-card">
                 <span class="icon">🎨</span>
-                <h3>Interfaz simple</h3>
-                <p>Diseñada para ser fácil y rápida de usar.</p>
+                <h3 data-i18n="f4_title">Interfaz simple</h3>
+                <p data-i18n="f4_desc">Diseñada para ser fácil y rápida de usar.</p>
             </div>
         </div>
 
         <!-- ====== MENSAJE INSPIRADOR ====== -->
-        <h2 class="section-title">💡 ¿Por qué usarla?</h2>
+        <h2 class="section-title" data-i18n="why_title">💡 ¿Por qué usarla?</h2>
         <div style="background:#141a20; padding:25px 30px; border-radius:16px; border:1px solid #2a3a4a; margin-bottom:30px;">
-            <p style="color:#cccccc; font-size:1.05rem; margin-bottom:15px;">
+            <p style="color:#cccccc; font-size:1.05rem; margin-bottom:15px;" data-i18n="why_p1">
                 ¿Y si esa carta que tienes guardada en tu cuarto vale mucho más de lo que imaginas?
             </p>
-            <p style="color:#cccccc; font-size:1.05rem;">
+            <p style="color:#cccccc; font-size:1.05rem;" data-i18n="why_p2">
                 Muchas veces, las mejores sorpresas no están en una tienda, sino en una caja vieja, una carpeta olvidada o un cajón de tu habitación. Tal vez llevas años teniendo una pequeña mina de oro sin saberlo.
             </p>
-            <p style="color:#cccccc; font-size:1.05rem; margin-top:15px;">
+            <p style="color:#cccccc; font-size:1.05rem; margin-top:15px;" data-i18n="why_p3">
                 <strong style="color:#ffcc00;">Escanea. Descubre. Valora.</strong> No dejes escapar una carta importante.
             </p>
         </div>
 
         <!-- ====== DESCARGA ====== -->
         <div class="download-box">
-            <h2>🚀 Descarga Pokemon Card Scanner</h2>
-            <p>Totalmente gratuita · Descubre el valor real de tu colección</p>
-            <a href="https://play.google.com/store/apps/details?id=vargas.maximo.pokemoncardscanner" target="_blank">Ir a Google Play</a>
+            <h2 data-i18n="download_title">🚀 Descarga Pokemon Card Scanner</h2>
+            <p data-i18n="download_sub">Totalmente gratuita · Descubre el valor real de tu colección</p>
+            <a href="https://play.google.com/store/apps/details?id=vargas.maximo.pokemoncardscanner" target="_blank" data-i18n="download_btn">Ir a Google Play</a>
         </div>
 
         <!-- ====== CITA ====== -->
         <div class="quote-box">
-            <p>
+            <p data-i18n="quote_text">
                 "Cada carta tiene una historia, y ahora también un valor. Descubre el tuyo con un solo escaneo."
             </p>
-            <p class="author">— Pokemon Card Scanner Team</p>
+            <p class="author" data-i18n="quote_author">— Pokemon Card Scanner Team</p>
         </div>
 
     </div>
@@ -476,17 +556,373 @@
     <!-- ====== FOOTER ====== -->
     <footer>
         <div class="container">
-            <p>© 2026 <strong style="color:#ffcc00;">Pokemon Card Scanner</strong> · Escáner de cartas Pokémon</p>
-            <p style="margin-top:8px; font-size:0.9rem;">
+            <p data-i18n="footer_copy">© 2026 <strong style="color:#ffcc00;">Pokemon Card Scanner</strong> · Escáner de cartas Pokémon</p>
+            <p style="margin-top:8px; font-size:0.9rem;" data-i18n="footer_made">
                 Hecho con ❤️ por <a href="https://MaxStudiotoken.github.io/maxstudio/">MaxStudio</a>
             </p>
         </div>
     </footer>
 
     <!-- ============================================================ -->
-    <!-- ====== JAVASCRIPT: ANIMACIÓN DE CARTAS VOLANDO ====== -->
+    <!-- ====== JAVASCRIPT: ANIMACIÓN DE CARTAS + IDIOMAS ====== -->
     <!-- ============================================================ -->
     <script>
+        // ==================== TRADUCCIONES ====================
+        const translations = {
+            es: {
+                title: "🃏 Pokemon Card Scanner",
+                subtitle: "Escanea cartas Pokémon y descubre su valor real",
+                tagline: "📸 Foto → 💰 Precio en segundos",
+                scan_btn: "🔍 Escanear carta",
+                scan_btn_stop: "⏹️ Detener escaneo",
+                what_title: "🔍 ¿Qué hace esta app?",
+                desc_p1: "<strong>Pokemon Card Scanner</strong> te ayuda a identificar cartas Pokémon de forma rápida y sencilla. Solo haz una foto o escanea tu carta para obtener su información principal, descripción y una referencia de su precio actual de mercado, todo en una sola app.",
+                desc_p2: "Ideal para coleccionistas, vendedores, compradores y fans del mundo Pokémon que quieren saber qué tienen entre manos antes de tomar una decisión. Desde cartas comunes hasta piezas más buscadas, esta app te permite consultar datos útiles en segundos y evitar vender barato una carta que podría tener mucho valor.",
+                li1: "📸 Escanea cartas fácilmente con tu cámara",
+                li2: "📄 Ver información y descripción de la carta",
+                li3: "💰 Consultar su precio actual de referencia",
+                li4: "🛡️ Revisar cartas de tu colección con más seguridad",
+                li5: "💎 Detectar posibles cartas valiosas que tenías olvidadas",
+                ideal1: "✅ Coleccionistas",
+                ideal2: "✅ Compradores en tiendas o mercadillos",
+                ideal3: "✅ Vendedores online",
+                ideal4: "✅ Fans que quieren descubrir el valor de sus cartas",
+                features_title: "⚡ Funciones principales",
+                f1_title: "Escaneo rápido",
+                f1_desc: "Usa la cámara para escanear la carta al instante.",
+                f2_title: "Resultados en segundos",
+                f2_desc: "Obtén información y precio sin esperas.",
+                f3_title: "Precio de mercado",
+                f3_desc: "Referencia actual basada en ventas reales.",
+                f4_title: "Interfaz simple",
+                f4_desc: "Diseñada para ser fácil y rápida de usar.",
+                why_title: "💡 ¿Por qué usarla?",
+                why_p1: "¿Y si esa carta que tienes guardada en tu cuarto vale mucho más de lo que imaginas?",
+                why_p2: "Muchas veces, las mejores sorpresas no están en una tienda, sino en una caja vieja, una carpeta olvidada o un cajón de tu habitación. Tal vez llevas años teniendo una pequeña mina de oro sin saberlo.",
+                why_p3: "<strong style='color:#ffcc00;'>Escanea. Descubre. Valora.</strong> No dejes escapar una carta importante.",
+                download_title: "🚀 Descarga Pokemon Card Scanner",
+                download_sub: "Totalmente gratuita · Descubre el valor real de tu colección",
+                download_btn: "Ir a Google Play",
+                quote_text: '"Cada carta tiene una historia, y ahora también un valor. Descubre el tuyo con un solo escaneo."',
+                quote_author: "— Pokemon Card Scanner Team",
+                footer_copy: "© 2026 <strong style='color:#ffcc00;'>Pokemon Card Scanner</strong> · Escáner de cartas Pokémon",
+                footer_made: "Hecho con ❤️ por <a href='https://MaxStudiotoken.github.io/maxstudio/'>MaxStudio</a>"
+            },
+            en: {
+                title: "🃏 Pokemon Card Scanner",
+                subtitle: "Scan Pokémon cards and discover their real value",
+                tagline: "📸 Photo → 💰 Price in seconds",
+                scan_btn: "🔍 Scan card",
+                scan_btn_stop: "⏹️ Stop scanning",
+                what_title: "🔍 What does this app do?",
+                desc_p1: "<strong>Pokemon Card Scanner</strong> helps you identify Pokémon cards quickly and easily. Just take a photo or scan your card to get its main information, description, and a reference of its current market price, all in one app.",
+                desc_p2: "Ideal for collectors, sellers, buyers, and Pokémon fans who want to know what they have before making a decision. From common cards to the most sought-after pieces, this app lets you check useful data in seconds and avoid selling a card too cheaply that could be worth a lot.",
+                li1: "📸 Scan cards easily with your camera",
+                li2: "📄 View card information and description",
+                li3: "💰 Check current reference price",
+                li4: "🛡️ Review cards from your collection more safely",
+                li5: "💎 Detect possible valuable cards you had forgotten",
+                ideal1: "✅ Collectors",
+                ideal2: "✅ Shoppers at stores or flea markets",
+                ideal3: "✅ Online sellers",
+                ideal4: "✅ Fans who want to discover the value of their cards",
+                features_title: "⚡ Main features",
+                f1_title: "Fast scanning",
+                f1_desc: "Use the camera to scan the card instantly.",
+                f2_title: "Results in seconds",
+                f2_desc: "Get information and price without waiting.",
+                f3_title: "Market price",
+                f3_desc: "Current reference based on real sales.",
+                f4_title: "Simple interface",
+                f4_desc: "Designed to be easy and quick to use.",
+                why_title: "💡 Why use it?",
+                why_p1: "What if that card you have stored in your room is worth much more than you imagine?",
+                why_p2: "Many times, the best surprises aren't in a store, but in an old box, a forgotten folder, or a drawer in your room. You may have been sitting on a small gold mine for years without knowing it.",
+                why_p3: "<strong style='color:#ffcc00;'>Scan. Discover. Value.</strong> Don't let an important card get away.",
+                download_title: "🚀 Download Pokemon Card Scanner",
+                download_sub: "Completely free · Discover the real value of your collection",
+                download_btn: "Go to Google Play",
+                quote_text: '"Every card has a story, and now also a value. Discover yours with a single scan."',
+                quote_author: "— Pokemon Card Scanner Team",
+                footer_copy: "© 2026 <strong style='color:#ffcc00;'>Pokemon Card Scanner</strong> · Pokémon Card Scanner",
+                footer_made: "Made with ❤️ by <a href='https://MaxStudiotoken.github.io/maxstudio/'>MaxStudio</a>"
+            },
+            fr: {
+                title: "🃏 Pokemon Card Scanner",
+                subtitle: "Scannez les cartes Pokémon et découvrez leur vraie valeur",
+                tagline: "📸 Photo → 💰 Prix en quelques secondes",
+                scan_btn: "🔍 Scanner la carte",
+                scan_btn_stop: "⏹️ Arrêter le scan",
+                what_title: "🔍 Que fait cette app ?",
+                desc_p1: "<strong>Pokemon Card Scanner</strong> vous aide à identifier les cartes Pokémon rapidement et facilement. Prenez une photo ou scannez votre carte pour obtenir ses informations principales, sa description et une référence de son prix actuel sur le marché, le tout dans une seule application.",
+                desc_p2: "Idéal pour les collectionneurs, vendeurs, acheteurs et fans de Pokémon qui veulent savoir ce qu'ils ont avant de prendre une décision. Des cartes communes aux pièces les plus recherchées, cette app vous permet de consulter des données utiles en quelques secondes et d'éviter de vendre trop cher une carte qui pourrait valoir beaucoup.",
+                li1: "📸 Scannez facilement les cartes avec votre appareil photo",
+                li2: "📄 Voir les informations et la description de la carte",
+                li3: "💰 Consulter son prix de référence actuel",
+                li4: "🛡️ Réviser les cartes de votre collection en toute sécurité",
+                li5: "💎 Détecter les cartes valables que vous aviez oubliées",
+                ideal1: "✅ Collectionneurs",
+                ideal2: "✅ Acheteurs en magasin ou brocante",
+                ideal3: "✅ Vendeurs en ligne",
+                ideal4: "✅ Fans qui veulent découvrir la valeur de leurs cartes",
+                features_title: "⚡ Fonctionnalités principales",
+                f1_title: "Scan rapide",
+                f1_desc: "Utilisez l'appareil photo pour scanner la carte instantanément.",
+                f2_title: "Résultats en quelques secondes",
+                f2_desc: "Obtenez informations et prix sans attendre.",
+                f3_title: "Prix du marché",
+                f3_desc: "Référence actuelle basée sur des ventes réelles.",
+                f4_title: "Interface simple",
+                f4_desc: "Conçue pour être facile et rapide à utiliser.",
+                why_title: "💡 Pourquoi l'utiliser ?",
+                why_p1: "Et si cette carte que vous avez rangée dans votre chambre valait bien plus que ce que vous imaginez ?",
+                why_p2: "Souvent, les meilleures surprises ne sont pas dans un magasin, mais dans une vieille boîte, un classeur oublié ou un tiroir de votre chambre. Peut-être que vous avez une petite mine d'or sans le savoir.",
+                why_p3: "<strong style='color:#ffcc00;'>Scannez. Découvrez. Valorisez.</strong> Ne laissez pas une carte importante vous échapper.",
+                download_title: "🚀 Télécharger Pokemon Card Scanner",
+                download_sub: "Entièrement gratuit · Découvrez la vraie valeur de votre collection",
+                download_btn: "Aller sur Google Play",
+                quote_text: '"Chaque carte a une histoire, et maintenant aussi une valeur. Découvrez la vôtre en un seul scan."',
+                quote_author: "— Équipe Pokemon Card Scanner",
+                footer_copy: "© 2026 <strong style='color:#ffcc00;'>Pokemon Card Scanner</strong> · Scanner de cartes Pokémon",
+                footer_made: "Fait avec ❤️ par <a href='https://MaxStudiotoken.github.io/maxstudio/'>MaxStudio</a>"
+            },
+            it: {
+                title: "🃏 Pokemon Card Scanner",
+                subtitle: "Scansiona le carte Pokémon e scopri il loro vero valore",
+                tagline: "📸 Foto → 💰 Prezzo in pochi secondi",
+                scan_btn: "🔍 Scansiona carta",
+                scan_btn_stop: "⏹️ Ferma scansione",
+                what_title: "🔍 Cosa fa quest'app?",
+                desc_p1: "<strong>Pokemon Card Scanner</strong> ti aiuta a identificare le carte Pokémon in modo rapido e semplice. Scatta una foto o scansiona la tua carta per ottenere le informazioni principali, la descrizione e un riferimento del suo prezzo attuale di mercato, tutto in un'unica app.",
+                desc_p2: "Idea per collezionisti, venditori, acquirenti e fan di Pokémon che vogliono sapere cosa hanno tra le mani prima di prendere una decisione. Dalle carte comuni ai pezzi più ricercati, quest'app ti permette di consultare dati utili in pochi secondi ed evitare di vendere a poco una carta che potrebbe valere molto.",
+                li1: "📸 Scansiona facilmente le carte con la fotocamera",
+                li2: "📄 Vedi informazioni e descrizione della carta",
+                li3: "💰 Consulta il suo prezzo di riferimento attuale",
+                li4: "🛡️ Rivedi le carte della tua collezione in sicurezza",
+                li5: "💎 Scopri possibili carte di valore che avevi dimenticato",
+                ideal1: "✅ Collezionisti",
+                ideal2: "✅ Acquirenti in negozi o mercatini",
+                ideal3: "✅ Venditori online",
+                ideal4: "✅ Fan che vogliono scoprire il valore delle loro carte",
+                features_title: "⚡ Funzionalità principali",
+                f1_title: "Scansione rapida",
+                f1_desc: "Usa la fotocamera per scansionare la carta all'istante.",
+                f2_title: "Risultati in pochi secondi",
+                f2_desc: "Ottieni informazioni e prezzo senza attendere.",
+                f3_title: "Prezzo di mercato",
+                f3_desc: "Riferimento attuale basato su vendite reali.",
+                f4_title: "Interfaccia semplice",
+                f4_desc: "Progettata per essere facile e veloce da usare.",
+                why_title: "💡 Perché usarla?",
+                why_p1: "E se quella carta che hai conservato nella tua stanza valesse molto più di quanto immagini?",
+                why_p2: "Spesso, le sorprese migliori non sono in un negozio, ma in una vecchia scatola, un raccoglitore dimenticato o un cassetto della tua stanza. Forse hai una piccola miniera d'oro senza saperlo.",
+                why_p3: "<strong style='color:#ffcc00;'>Scansiona. Scopri. Valuta.</strong> Non lasciarti sfuggire una carta importante.",
+                download_title: "🚀 Scarica Pokemon Card Scanner",
+                download_sub: "Completamente gratuito · Scopri il vero valore della tua collezione",
+                download_btn: "Vai su Google Play",
+                quote_text: '"Ogni carta ha una storia, e ora anche un valore. Scopri il tuo con un solo scan."',
+                quote_author: "— Team Pokemon Card Scanner",
+                footer_copy: "© 2026 <strong style='color:#ffcc00;'>Pokemon Card Scanner</strong> · Scanner di carte Pokémon",
+                footer_made: "Fatto con ❤️ da <a href='https://MaxStudiotoken.github.io/maxstudio/'>MaxStudio</a>"
+            },
+            zh: {
+                title: "🃏 Pokemon Card Scanner",
+                subtitle: "扫描宝可梦卡牌，发现其真实价值",
+                tagline: "📸 照片 → 💰 几秒钟内显示价格",
+                scan_btn: "🔍 扫描卡牌",
+                scan_btn_stop: "⏹️ 停止扫描",
+                what_title: "🔍 这个应用做什么？",
+                desc_p1: "<strong>宝可梦卡牌扫描器</strong> 帮助您快速轻松地识别宝可梦卡牌。只需拍照或扫描您的卡牌，即可获取其主要信息、描述和当前市场价格的参考，一切都在一个应用中。",
+                desc_p2: "适合收藏家、卖家、买家和宝可梦粉丝，他们想知道自己手中有什么，然后再做决定。从普通卡牌到最抢手的卡牌，这款应用让您可以在几秒钟内查看有用数据，避免以过低价格出售可能价值很高的卡牌。",
+                li1: "📸 用相机轻松扫描卡牌",
+                li2: "📄 查看卡牌信息和描述",
+                li3: "💰 查询当前参考价格",
+                li4: "🛡️ 更安全地查看您的收藏卡牌",
+                li5: "💎 发现您可能忘记的有价值的卡牌",
+                ideal1: "✅ 收藏家",
+                ideal2: "✅ 商店或跳蚤市场的买家",
+                ideal3: "✅ 在线卖家",
+                ideal4: "✅ 想发现卡牌价值的粉丝",
+                features_title: "⚡ 主要功能",
+                f1_title: "快速扫描",
+                f1_desc: "使用相机即时扫描卡牌。",
+                f2_title: "几秒钟出结果",
+                f2_desc: "无需等待即可获取信息和价格。",
+                f3_title: "市场价格",
+                f3_desc: "基于实际销售的当前参考。",
+                f4_title: "简单界面",
+                f4_desc: "设计易于快速使用。",
+                why_title: "💡 为什么使用它？",
+                why_p1: "如果那张你放在房间里的卡牌比你想象的要值钱得多呢？",
+                why_p2: "很多时候，最好的惊喜不在商店里，而在一个旧盒子、一个被遗忘的文件夹或你房间的抽屉里。你可能多年拥有一座小金矿却不知道。",
+                why_p3: "<strong style='color:#ffcc00;'>扫描。发现。估价。</strong> 不要让重要的卡牌溜走。",
+                download_title: "🚀 下载宝可梦卡牌扫描器",
+                download_sub: "完全免费 · 发现您收藏的真实价值",
+                download_btn: "前往 Google Play",
+                quote_text: '"每张卡牌都有一个故事，现在也有一个价值。一次扫描发现您的价值。"',
+                quote_author: "— 宝可梦卡牌扫描器团队",
+                footer_copy: "© 2026 <strong style='color:#ffcc00;'>宝可梦卡牌扫描器</strong> · 宝可梦卡牌扫描器",
+                footer_made: "用心制作 ❤️ 来自 <a href='https://MaxStudiotoken.github.io/maxstudio/'>MaxStudio</a>"
+            },
+            ru: {
+                title: "🃏 Pokemon Card Scanner",
+                subtitle: "Сканируйте карты Pokémon и узнайте их реальную стоимость",
+                tagline: "📸 Фото → 💰 Цена за секунды",
+                scan_btn: "🔍 Сканировать карту",
+                scan_btn_stop: "⏹️ Остановить сканирование",
+                what_title: "🔍 Что делает это приложение?",
+                desc_p1: "<strong>Pokemon Card Scanner</strong> помогает быстро и легко идентифицировать карты Pokémon. Просто сфотографируйте или отсканируйте вашу карту, чтобы получить основную информацию, описание и ссылку на её текущую рыночную цену — всё в одном приложении.",
+                desc_p2: "Идеально для коллекционеров, продавцов, покупателей и фанатов Pokémon, которые хотят знать, что у них в руках, прежде чем принять решение. От обычных карт до самых востребованных, это приложение позволяет вам получить полезные данные за секунды и избежать продажи карты, которая может стоить намного больше.",
+                li1: "📸 Легко сканируйте карты с помощью камеры",
+                li2: "📄 Просматривайте информацию и описание карты",
+                li3: "💰 Проверяйте текущую рыночную цену",
+                li4: "🛡️ Безопасно просматривайте карты из вашей коллекции",
+                li5: "💎 Находите ценные карты, которые вы забыли",
+                ideal1: "✅ Коллекционеры",
+                ideal2: "✅ Покупатели в магазинах или на блошиных рынках",
+                ideal3: "✅ Продавцы онлайн",
+                ideal4: "✅ Фанаты, которые хотят узнать стоимость своих карт",
+                features_title: "⚡ Основные функции",
+                f1_title: "Быстрое сканирование",
+                f1_desc: "Используйте камеру для мгновенного сканирования карты.",
+                f2_title: "Результаты за секунды",
+                f2_desc: "Получайте информацию и цену без ожидания.",
+                f3_title: "Рыночная цена",
+                f3_desc: "Текущая справка на основе реальных продаж.",
+                f4_title: "Простой интерфейс",
+                f4_desc: "Разработан для простоты и скорости использования.",
+                why_title: "💡 Почему использовать?",
+                why_p1: "Что если та карта, которую вы храните в своей комнате, стоит намного больше, чем вы думаете?",
+                why_p2: "Часто лучшие сюрпризы находятся не в магазине, а в старой коробке, забытой папке или ящике вашей комнаты. Возможно, у вас уже много лет есть маленький золотой прииск, и вы даже не знаете об этом.",
+                why_p3: "<strong style='color:#ffcc00;'>Сканируйте. Открывайте. Оценивайте.</strong> Не упустите важную карту.",
+                download_title: "🚀 Скачать Pokemon Card Scanner",
+                download_sub: "Полностью бесплатно · Узнайте реальную стоимость вашей коллекции",
+                download_btn: "Перейти в Google Play",
+                quote_text: '"У каждой карты есть история, и теперь также есть цена. Узнайте свою за одно сканирование."',
+                quote_author: "— Команда Pokemon Card Scanner",
+                footer_copy: "© 2026 <strong style='color:#ffcc00;'>Pokemon Card Scanner</strong> · Сканер карт Pokémon",
+                footer_made: "Сделано с ❤️ от <a href='https://MaxStudiotoken.github.io/maxstudio/'>MaxStudio</a>"
+            },
+            de: {
+                title: "🃏 Pokemon Card Scanner",
+                subtitle: "Scannen Sie Pokémon-Karten und entdecken Sie ihren echten Wert",
+                tagline: "📸 Foto → 💰 Preis in Sekunden",
+                scan_btn: "🔍 Karte scannen",
+                scan_btn_stop: "⏹️ Scan stoppen",
+                what_title: "🔍 Was macht diese App?",
+                desc_p1: "<strong>Pokemon Card Scanner</strong> hilft Ihnen, Pokémon-Karten schnell und einfach zu identifizieren. Machen Sie einfach ein Foto oder scannen Sie Ihre Karte, um die wichtigsten Informationen, die Beschreibung und einen Hinweis auf den aktuellen Marktpreis zu erhalten – alles in einer App.",
+                desc_p2: "Ideal für Sammler, Verkäufer, Käufer und Pokémon-Fans, die wissen möchten, was sie haben, bevor sie eine Entscheidung treffen. Von gewöhnlichen Karten bis zu den begehrtesten Stücken können Sie mit dieser App in Sekundenschnelle nützliche Daten abrufen und vermeiden, eine Karte zu billig zu verkaufen, die viel wert sein könnte.",
+                li1: "📸 Scannen Sie Karten einfach mit Ihrer Kamera",
+                li2: "📄 Informationen und Beschreibung der Karte anzeigen",
+                li3: "💰 Aktuellen Referenzpreis abrufen",
+                li4: "🛡️ Karten Ihrer Sammlung sicherer überprüfen",
+                li5: "💎 Wertvolle Karten entdecken, die Sie vergessen hatten",
+                ideal1: "✅ Sammler",
+                ideal2: "✅ Käufer in Geschäften oder auf Flohmärkten",
+                ideal3: "✅ Online-Verkäufer",
+                ideal4: "✅ Fans, die den Wert ihrer Karten entdecken wollen",
+                features_title: "⚡ Hauptfunktionen",
+                f1_title: "Schneller Scan",
+                f1_desc: "Nutzen Sie die Kamera, um die Karte sofort zu scannen.",
+                f2_title: "Ergebnisse in Sekunden",
+                f2_desc: "Erhalten Sie Informationen und Preis ohne Wartezeit.",
+                f3_title: "Marktpreis",
+                f3_desc: "Aktuelle Referenz basierend auf echten Verkäufen.",
+                f4_title: "Einfache Oberfläche",
+                f4_desc: "Entworfen für einfache und schnelle Bedienung.",
+                why_title: "💡 Warum verwenden?",
+                why_p1: "Was wäre, wenn die Karte, die Sie in Ihrem Zimmer aufbewahren, viel mehr wert ist, als Sie denken?",
+                why_p2: "Die besten Überraschungen sind oft nicht im Laden, sondern in einer alten Schachtel, einem vergessenen Ordner oder einer Schublade in Ihrem Zimmer. Vielleicht haben Sie schon seit Jahren eine kleine Goldmine, ohne es zu wissen.",
+                why_p3: "<strong style='color:#ffcc00;'>Scannen. Entdecken. Bewerten.</strong> Lassen Sie keine wichtige Karte entgehen.",
+                download_title: "🚀 Pokemon Card Scanner herunterladen",
+                download_sub: "Völlig kostenlos · Entdecken Sie den echten Wert Ihrer Sammlung",
+                download_btn: "Zu Google Play",
+                quote_text: '"Jede Karte hat eine Geschichte, und jetzt auch einen Wert. Entdecken Sie Ihren mit einem einzigen Scan."',
+                quote_author: "— Pokemon Card Scanner Team",
+                footer_copy: "© 2026 <strong style='color:#ffcc00;'>Pokemon Card Scanner</strong> · Pokémon-Karten-Scanner",
+                footer_made: "Mit ❤️ gemacht von <a href='https://MaxStudiotoken.github.io/maxstudio/'>MaxStudio</a>"
+            },
+            pt: {
+                title: "🃏 Pokemon Card Scanner",
+                subtitle: "Digitalize cartas Pokémon e descubra o seu valor real",
+                tagline: "📸 Foto → 💰 Preço em segundos",
+                scan_btn: "🔍 Digitalizar carta",
+                scan_btn_stop: "⏹️ Parar digitalização",
+                what_title: "🔍 O que este app faz?",
+                desc_p1: "<strong>Pokemon Card Scanner</strong> ajuda você a identificar cartas Pokémon de forma rápida e fácil. Basta tirar uma foto ou digitalizar sua carta para obter suas informações principais, descrição e uma referência do seu preço atual de mercado, tudo em um único app.",
+                desc_p2: "Ideal para colecionadores, vendedores, compradores e fãs de Pokémon que querem saber o que têm antes de tomar uma decisão. De cartas comuns às peças mais procuradas, este app permite consultar dados úteis em segundos e evitar vender barato uma carta que pode valer muito.",
+                li1: "📸 Digitalize cartas facilmente com sua câmera",
+                li2: "📄 Ver informações e descrição da carta",
+                li3: "💰 Consultar seu preço de referência atual",
+                li4: "🛡️ Revisar cartas da sua coleção com mais segurança",
+                li5: "💎 Detectar possíveis cartas valiosas que você tinha esquecido",
+                ideal1: "✅ Colecionadores",
+                ideal2: "✅ Compradores em lojas ou feiras",
+                ideal3: "✅ Vendedores online",
+                ideal4: "✅ Fãs que querem descobrir o valor de suas cartas",
+                features_title: "⚡ Funcionalidades principais",
+                f1_title: "Digitalização rápida",
+                f1_desc: "Use a câmera para digitalizar a carta instantaneamente.",
+                f2_title: "Resultados em segundos",
+                f2_desc: "Obtenha informações e preço sem esperar.",
+                f3_title: "Preço de mercado",
+                f3_desc: "Referência atual baseada em vendas reais.",
+                f4_title: "Interface simples",
+                f4_desc: "Projetada para ser fácil e rápida de usar.",
+                why_title: "💡 Por que usar?",
+                why_p1: "E se aquela carta que você tem guardada no seu quarto valer muito mais do que você imagina?",
+                why_p2: "Muitas vezes, as melhores surpresas não estão em uma loja, mas em uma caixa velha, uma pasta esquecida ou uma gaveta do seu quarto. Talvez você tenha uma pequena mina de ouro há anos sem saber.",
+                why_p3: "<strong style='color:#ffcc00;'>Digitalize. Descubra. Valorize.</strong> Não deixe escapar uma carta importante.",
+                download_title: "🚀 Baixar Pokemon Card Scanner",
+                download_sub: "Totalmente gratuito · Descubra o valor real da sua coleção",
+                download_btn: "Ir para o Google Play",
+                quote_text: '"Cada carta tem uma história, e agora também um valor. Descubra a sua com uma única digitalização."',
+                quote_author: "— Equipe Pokemon Card Scanner",
+                footer_copy: "© 2026 <strong style='color:#ffcc00;'>Pokemon Card Scanner</strong> · Digitalizador de cartas Pokémon",
+                footer_made: "Feito com ❤️ por <a href='https://MaxStudiotoken.github.io/maxstudio/'>MaxStudio</a>"
+            }
+        };
+
+        // ==================== IDIOMA ====================
+        const langSwitcher = document.getElementById('languageSwitcher');
+        const allLangSpans = langSwitcher.querySelectorAll('span');
+        const i18nElements = document.querySelectorAll('[data-i18n]');
+
+        function setLanguage(lang) {
+            allLangSpans.forEach(span => {
+                span.classList.remove('active');
+                if (span.dataset.lang === lang) span.classList.add('active');
+            });
+            i18nElements.forEach(el => {
+                const key = el.dataset.i18n;
+                if (translations[lang] && translations[lang][key] !== undefined) {
+                    if (el.tagName === 'BUTTON' && key === 'scan_btn') {
+                        const btn = document.getElementById('scanBtn');
+                        if (!btn.classList.contains('scanning')) {
+                            el.innerHTML = translations[lang][key];
+                        }
+                    } else {
+                        el.innerHTML = translations[lang][key];
+                    }
+                }
+            });
+            document.documentElement.lang = lang;
+        }
+
+        allLangSpans.forEach(span => {
+            span.addEventListener('click', function() {
+                const lang = this.dataset.lang;
+                setLanguage(lang);
+                const btn = document.getElementById('scanBtn');
+                if (btn.classList.contains('scanning')) {
+                    btn.textContent = translations[lang].scan_btn_stop || '⏹️ Detener escaneo';
+                } else {
+                    btn.textContent = translations[lang].scan_btn || '🔍 Escanear carta';
+                }
+            });
+        });
+
+        // ==================== ANIMACIÓN DE CARTAS ====================
         (function() {
             const canvas = document.getElementById('pokemonCanvas');
             const ctx = canvas.getContext('2d');
@@ -495,7 +931,6 @@
             let scanning = false;
             let frameId = null;
 
-            // Emojis de cartas Pokémon
             const cardEmojis = ['🃏', '⭐', '💎', '🔥', '💧', '🌿', '⚡', '🛡️', '🎴', '🏅'];
 
             function resize() {
@@ -506,7 +941,6 @@
                 H = canvas.height;
             }
 
-            // Generar carta aleatoria
             function createCard() {
                 const size = 34 + Math.random() * 30;
                 return {
@@ -531,22 +965,18 @@
             function drawCards() {
                 ctx.clearRect(0, 0, W, H);
 
-                // Dibujar cada carta
                 cards.forEach(card => {
                     const x = card.x;
                     const y = card.y;
                     const s = card.size;
 
-                    // Guardar contexto para rotación
                     ctx.save();
                     ctx.translate(x, y);
                     ctx.rotate(card.rotation);
 
-                    // Sombra
                     ctx.shadowColor = 'rgba(255, 204, 0, 0.15)';
                     ctx.shadowBlur = 12;
 
-                    // Efecto de brillo alrededor (solo si está escaneando)
                     if (scanning) {
                         const grad = ctx.createRadialGradient(0, 0, 0, 0, 0, s * 1.8);
                         grad.addColorStop(0, 'rgba(255, 200, 100, 0.15)');
@@ -558,15 +988,12 @@
                     }
 
                     ctx.shadowBlur = 0;
-
-                    // Dibujar el emoji de la carta
                     ctx.font = `${s}px Arial`;
                     ctx.textAlign = 'center';
                     ctx.textBaseline = 'middle';
                     ctx.fillStyle = '#ffffff';
                     ctx.fillText(card.emoji, 0, 0);
 
-                    // Si está escaneando, mostrar destello de "escaneo"
                     if (scanning) {
                         ctx.font = '14px Arial';
                         ctx.fillStyle = 'rgba(255, 200, 100, 0.8)';
@@ -575,17 +1002,14 @@
 
                     ctx.restore();
 
-                    // Actualizar posición y rotación
                     card.x += card.dx;
                     card.y += card.dy;
                     card.rotation += card.rotSpeed;
 
-                    // Rebote en bordes
                     if (card.x <= 0 || card.x >= W - card.size) card.dx *= -1;
                     if (card.y <= 0 || card.y >= H - card.size) card.dy *= -1;
                 });
 
-                // Si está escaneando, mostrar texto de "Escaneando..."
                 if (scanning) {
                     ctx.font = 'bold 22px Inter, Arial';
                     ctx.fillStyle = '#ffcc44';
@@ -598,23 +1022,21 @@
                 frameId = requestAnimationFrame(drawCards);
             }
 
-            // ====== ESCANEAR ======
             function toggleScan() {
                 scanning = !scanning;
                 const btn = document.getElementById('scanBtn');
+                const lang = document.documentElement.lang || 'es';
                 if (scanning) {
-                    btn.textContent = '⏹️ Detener escaneo';
+                    btn.textContent = translations[lang]?.scan_btn_stop || '⏹️ Detener escaneo';
                     btn.classList.add('scanning');
-                    // Hacer que las cartas se muevan más rápido
                     cards.forEach(c => {
                         c.dx *= 1.3;
                         c.dy *= 1.3;
                         c.rotSpeed *= 1.5;
                     });
                 } else {
-                    btn.textContent = '🔍 Escanear carta';
+                    btn.textContent = translations[lang]?.scan_btn || '🔍 Escanear carta';
                     btn.classList.remove('scanning');
-                    // Volver a velocidad normal
                     cards.forEach(c => {
                         if (Math.abs(c.dx) > 2.5) c.dx *= 0.8;
                         if (Math.abs(c.dy) > 2.5) c.dy *= 0.8;
@@ -623,7 +1045,6 @@
                 }
             }
 
-            // ====== INICIALIZAR ======
             function init() {
                 resize();
                 initCards(16);
@@ -640,7 +1061,9 @@
                 init();
             }
         })();
-    </script>
 
+        // Idioma inicial
+        setLanguage('es');
+    </script>
 </body>
 </html>
