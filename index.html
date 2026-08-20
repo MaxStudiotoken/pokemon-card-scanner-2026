@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pokemon Card Scanner | Escanea cartas Pokémon y descubre su valor</title>
+    <meta name="description" content="Pokemon Card Scanner te permite escanear cartas Pokémon con la cámara, obtener su información y precio de mercado en segundos. Ideal para coleccionistas." />
+    <meta name="keywords" content="Pokémon, cartas, escáner, valor, coleccionismo, precios, Pokemon Card Scanner" />
+    <link rel="canonical" href="https://MaxStudiotoken.github.io/pokemon-card-scanner/" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet" />
+
+    <style>
+        /* ===== RESET ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', Arial, sans-serif;
+            background: #0d0d0d;
+            color: #e0e0e0;
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* ===== HERO CON CANVAS ===== */
+        .hero {
+            position: relative;
+            background: linear-gradient(145deg, #0a1a2a 0%, #0f2a3a 50%, #060d15 100%);
+            padding: 60px 20px 50px;
+            text-align: center;
+            border-bottom: 4px solid #ffcc00;
+            overflow: hidden;
+            min-height: 460px;
+        }
+
+        #pokemonCanvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: block;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero h1 {
+            font-size: 4.2em;
+            font-weight: 800;
+            background: linear-gradient(135deg, #ffcc00, #ff8800);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -1px;
+            margin-bottom: 10px;
+        }
+
+        .hero .subtitle {
+            font-size: 1.4em;
+            color: #88ccff;
+            font-weight: 400;
+        }
+
+        .hero .tagline {
+            display: inline-block;
+            margin-top: 15px;
+            background: rgba(255, 204, 0, 0.15);
+            border: 1px solid #ffcc00;
+            color: #ffcc66;
+            padding: 8px 28px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 0.95em;
+        }
+
+        .scan-btn {
+            position: relative;
+            z-index: 3;
+            margin-top: 30px;
+            background: #ffcc00;
+            border: none;
+            color: #0d0d0d;
+            padding: 16px 50px;
+            border-radius: 60px;
+            font-weight: 800;
+            font-size: 1.3rem;
+            cursor: pointer;
+            transition: 0.3s;
+            box-shadow: 0 0 40px rgba(255, 204, 0, 0.3);
+            border: 1px solid #ffdd33;
+        }
+
+        .scan-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 70px rgba(255, 204, 0, 0.6);
+            background: #ffdd33;
+        }
+
+        .scan-btn:active {
+            transform: scale(0.95);
+        }
+
+        .scan-btn.scanning {
+            background: #ff8800;
+            border-color: #ffaa44;
+            box-shadow: 0 0 40px rgba(255, 136, 0, 0.3);
+            color: #fff;
+        }
+
+        /* ===== SECCIONES ===== */
+        .section-title {
+            font-size: 2.4em;
+            font-weight: 700;
+            margin: 55px 0 25px 0;
+            color: #ffffff;
+            border-left: 6px solid #ffcc00;
+            padding-left: 20px;
+        }
+
+        .section-title-wrap {
+            text-align: center;
+        }
+        .section-title-wrap .section-title {
+            display: inline-block;
+            border-left: none;
+            border-bottom: 3px solid #ffcc00;
+            padding-bottom: 12px;
+            padding-left: 0;
+        }
+
+        /* ===== DESCRIPCIÓN ===== */
+        .desc-box {
+            background: #141a20;
+            padding: 35px 40px;
+            border-radius: 24px;
+            border: 1px solid #2a3a4a;
+            margin-bottom: 30px;
+        }
+
+        .desc-box p {
+            font-size: 1.08rem;
+            color: #cccccc;
+            margin-bottom: 16px;
+            line-height: 1.8;
+        }
+
+        .desc-box ul {
+            list-style: none;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            padding: 0;
+            margin-top: 15px;
+        }
+
+        .desc-box ul li {
+            background: #1a222a;
+            padding: 14px 20px;
+            border-radius: 12px;
+            border-left: 3px solid #ffcc00;
+            color: #dddddd;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: 0.2s;
+        }
+
+        .desc-box ul li:hover {
+            background: #22303a;
+            border-color: #ffdd33;
+        }
+
+        @media (max-width: 700px) {
+            .desc-box ul {
+                grid-template-columns: 1fr;
+            }
+            .desc-box {
+                padding: 25px 20px;
+            }
+        }
+
+        /* ===== IDEAL PARA ===== */
+        .ideal-box {
+            background: linear-gradient(145deg, #1a222a, #0d1218);
+            border: 1px solid #ffcc00;
+            border-radius: 16px;
+            padding: 25px 30px;
+            margin: 25px 0;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px 20px;
+            justify-content: center;
+        }
+
+        .ideal-box span {
+            background: rgba(255, 204, 0, 0.08);
+            padding: 6px 18px;
+            border-radius: 30px;
+            color: #ffdd88;
+            font-size: 0.95rem;
+            border: 1px solid rgba(255, 204, 0, 0.15);
+        }
+
+        .ideal-box span strong {
+            color: #ffcc00;
+        }
+
+        /* ===== GRID DE CARACTERÍSTICAS ===== */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 25px;
+            margin: 35px 0 20px;
+        }
+
+        .feature-card {
+            background: #141a20;
+            padding: 28px 18px 22px;
+            border-radius: 20px;
+            border: 1px solid #2a3a4a;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-8px);
+            border-color: #ffcc00;
+            box-shadow: 0 12px 30px rgba(255, 204, 0, 0.05);
+        }
+
+        .feature-card .icon {
+            font-size: 3em;
+            margin-bottom: 12px;
+            display: block;
+        }
+
+        .feature-card h3 {
+            color: #ffcc44;
+            font-size: 1.25em;
+            margin-bottom: 8px;
+        }
+
+        .feature-card p {
+            color: #bbbbbb;
+            font-size: 0.92rem;
+            line-height: 1.5;
+        }
+
+        /* ===== DESCARGA ===== */
+        .download-box {
+            background: linear-gradient(145deg, #1a222a, #0d1218);
+            padding: 45px 30px;
+            border-radius: 30px;
+            border: 2px solid #ffcc00;
+            text-align: center;
+            margin: 45px 0;
+        }
+
+        .download-box h2 {
+            color: #ffffff;
+            font-size: 2.2em;
+            margin-bottom: 8px;
+        }
+
+        .download-box p {
+            color: #bbbbbb;
+            max-width: 600px;
+            margin: 0 auto 20px;
+            font-size: 1.1rem;
+        }
+
+        .download-box a {
+            display: inline-block;
+            background: #ffcc00;
+            color: #0d0d0d;
+            padding: 18px 55px;
+            border-radius: 60px;
+            font-weight: 800;
+            text-decoration: none;
+            font-size: 1.3rem;
+            transition: 0.3s;
+            border: 1px solid #ffdd33;
+        }
+
+        .download-box a:hover {
+            background: #ffdd33;
+            transform: scale(1.05);
+            box-shadow: 0 0 40px rgba(255, 204, 0, 0.3);
+        }
+
+        /* ===== CITA ===== */
+        .quote-box {
+            margin: 45px 0 30px;
+            padding: 28px 35px;
+            background: #141a20;
+            border-radius: 20px;
+            border-left: 6px solid #ffcc00;
+        }
+
+        .quote-box p {
+            font-size: 1.2rem;
+            font-style: italic;
+            color: #dddddd;
+        }
+
+        .quote-box .author {
+            text-align: right;
+            color: #ffcc00;
+            font-weight: 700;
+            font-style: normal;
+            margin-top: 10px;
+        }
+
+        /* ===== FOOTER ===== */
+        footer {
+            margin-top: 60px;
+            padding: 35px 20px 25px;
+            text-align: center;
+            border-top: 1px solid #2a3a4a;
+            color: #666666;
+        }
+
+        footer a {
+            color: #ffcc00;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.8em;
+            }
+            .hero .subtitle {
+                font-size: 1.1em;
+            }
+            .section-title {
+                font-size: 1.9em;
+            }
+            .features-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+            .hero h1 {
+                font-size: 2.4em;
+            }
+            .download-box h2 {
+                font-size: 1.6em;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ====== HERO CON ANIMACIÓN DE CARTAS ====== -->
+    <section class="hero">
+        <canvas id="pokemonCanvas"></canvas>
+        <div class="hero-content container">
+            <h1>🃏 Pokemon Card Scanner</h1>
+            <p class="subtitle">Escanea cartas Pokémon y descubre su valor real</p>
+            <div class="tagline">📸 Foto → 💰 Precio en segundos</div>
+            <br />
+            <button class="scan-btn" id="scanBtn">🔍 Escanear carta</button>
+        </div>
+    </section>
+
+    <div class="container">
+
+        <!-- ====== DESCRIPCIÓN COMPLETA ====== -->
+        <h2 class="section-title">🔍 ¿Qué hace esta app?</h2>
+        <div class="desc-box">
+            <p>
+                <strong>Pokemon Card Scanner</strong> te ayuda a identificar cartas Pokémon de forma rápida y sencilla. Solo haz una foto o escanea tu carta para obtener su información principal, descripción y una referencia de su precio actual de mercado, todo en una sola app.
+            </p>
+            <p>
+                Ideal para coleccionistas, vendedores, compradores y fans del mundo Pokémon que quieren saber qué tienen entre manos antes de tomar una decisión. Desde cartas comunes hasta piezas más buscadas, esta app te permite consultar datos útiles en segundos y evitar vender barato una carta que podría tener mucho valor.
+            </p>
+            <ul>
+                <li>📸 Escanea cartas fácilmente con tu cámara</li>
+                <li>📄 Ver información y descripción de la carta</li>
+                <li>💰 Consultar su precio actual de referencia</li>
+                <li>🛡️ Revisar cartas de tu colección con más seguridad</li>
+                <li>💎 Detectar posibles cartas valiosas que tenías olvidadas</li>
+            </ul>
+        </div>
+
+        <!-- ====== IDEAL PARA ====== -->
+        <div class="ideal-box">
+            <span><strong>✅</strong> Coleccionistas</span>
+            <span><strong>✅</strong> Compradores en tiendas o mercadillos</span>
+            <span><strong>✅</strong> Vendedores online</span>
+            <span><strong>✅</strong> Fans que quieren descubrir el valor de sus cartas</span>
+        </div>
+
+        <!-- ====== FUNCIONES PRINCIPALES ====== -->
+        <h2 class="section-title">⚡ Funciones principales</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <span class="icon">📸</span>
+                <h3>Escaneo rápido</h3>
+                <p>Usa la cámara para escanear la carta al instante.</p>
+            </div>
+            <div class="feature-card">
+                <span class="icon">⚡</span>
+                <h3>Resultados en segundos</h3>
+                <p>Obtén información y precio sin esperas.</p>
+            </div>
+            <div class="feature-card">
+                <span class="icon">💰</span>
+                <h3>Precio de mercado</h3>
+                <p>Referencia actual basada en ventas reales.</p>
+            </div>
+            <div class="feature-card">
+                <span class="icon">🎨</span>
+                <h3>Interfaz simple</h3>
+                <p>Diseñada para ser fácil y rápida de usar.</p>
+            </div>
+        </div>
+
+        <!-- ====== MENSAJE INSPIRADOR ====== -->
+        <h2 class="section-title">💡 ¿Por qué usarla?</h2>
+        <div style="background:#141a20; padding:25px 30px; border-radius:16px; border:1px solid #2a3a4a; margin-bottom:30px;">
+            <p style="color:#cccccc; font-size:1.05rem; margin-bottom:15px;">
+                ¿Y si esa carta que tienes guardada en tu cuarto vale mucho más de lo que imaginas?
+            </p>
+            <p style="color:#cccccc; font-size:1.05rem;">
+                Muchas veces, las mejores sorpresas no están en una tienda, sino en una caja vieja, una carpeta olvidada o un cajón de tu habitación. Tal vez llevas años teniendo una pequeña mina de oro sin saberlo.
+            </p>
+            <p style="color:#cccccc; font-size:1.05rem; margin-top:15px;">
+                <strong style="color:#ffcc00;">Escanea. Descubre. Valora.</strong> No dejes escapar una carta importante.
+            </p>
+        </div>
+
+        <!-- ====== DESCARGA ====== -->
+        <div class="download-box">
+            <h2>🚀 Descarga Pokemon Card Scanner</h2>
+            <p>Totalmente gratuita · Descubre el valor real de tu colección</p>
+            <a href="https://play.google.com/store/apps/details?id=vargas.maximo.pokemoncardscanner" target="_blank">Ir a Google Play</a>
+        </div>
+
+        <!-- ====== CITA ====== -->
+        <div class="quote-box">
+            <p>
+                "Cada carta tiene una historia, y ahora también un valor. Descubre el tuyo con un solo escaneo."
+            </p>
+            <p class="author">— Pokemon Card Scanner Team</p>
+        </div>
+
+    </div>
+
+    <!-- ====== FOOTER ====== -->
+    <footer>
+        <div class="container">
+            <p>© 2026 <strong style="color:#ffcc00;">Pokemon Card Scanner</strong> · Escáner de cartas Pokémon</p>
+            <p style="margin-top:8px; font-size:0.9rem;">
+                Hecho con ❤️ por <a href="https://MaxStudiotoken.github.io/maxstudio/">MaxStudio</a>
+            </p>
+        </div>
+    </footer>
+
+    <!-- ============================================================ -->
+    <!-- ====== JAVASCRIPT: ANIMACIÓN DE CARTAS VOLANDO ====== -->
+    <!-- ============================================================ -->
+    <script>
+        (function() {
+            const canvas = document.getElementById('pokemonCanvas');
+            const ctx = canvas.getContext('2d');
+            let W, H;
+            let cards = [];
+            let scanning = false;
+            let frameId = null;
+
+            // Emojis de cartas Pokémon
+            const cardEmojis = ['🃏', '⭐', '💎', '🔥', '💧', '🌿', '⚡', '🛡️', '🎴', '🏅'];
+
+            function resize() {
+                const rect = canvas.parentElement.getBoundingClientRect();
+                canvas.width = rect.width;
+                canvas.height = rect.height;
+                W = canvas.width;
+                H = canvas.height;
+            }
+
+            // Generar carta aleatoria
+            function createCard() {
+                const size = 34 + Math.random() * 30;
+                return {
+                    emoji: cardEmojis[Math.floor(Math.random() * cardEmojis.length)],
+                    x: Math.random() * (W - size),
+                    y: Math.random() * (H - size),
+                    dx: (Math.random() - 0.5) * 2.2,
+                    dy: (Math.random() - 0.5) * 2.2,
+                    size: size,
+                    rotation: Math.random() * Math.PI * 2,
+                    rotSpeed: (Math.random() - 0.5) * 0.02,
+                };
+            }
+
+            function initCards(count = 16) {
+                cards = [];
+                for (let i = 0; i < count; i++) {
+                    cards.push(createCard());
+                }
+            }
+
+            function drawCards() {
+                ctx.clearRect(0, 0, W, H);
+
+                // Dibujar cada carta
+                cards.forEach(card => {
+                    const x = card.x;
+                    const y = card.y;
+                    const s = card.size;
+
+                    // Guardar contexto para rotación
+                    ctx.save();
+                    ctx.translate(x, y);
+                    ctx.rotate(card.rotation);
+
+                    // Sombra
+                    ctx.shadowColor = 'rgba(255, 204, 0, 0.15)';
+                    ctx.shadowBlur = 12;
+
+                    // Efecto de brillo alrededor (solo si está escaneando)
+                    if (scanning) {
+                        const grad = ctx.createRadialGradient(0, 0, 0, 0, 0, s * 1.8);
+                        grad.addColorStop(0, 'rgba(255, 200, 100, 0.15)');
+                        grad.addColorStop(1, 'rgba(255, 200, 100, 0)');
+                        ctx.beginPath();
+                        ctx.arc(0, 0, s * 1.8, 0, Math.PI * 2);
+                        ctx.fillStyle = grad;
+                        ctx.fill();
+                    }
+
+                    ctx.shadowBlur = 0;
+
+                    // Dibujar el emoji de la carta
+                    ctx.font = `${s}px Arial`;
+                    ctx.textAlign = 'center';
+                    ctx.textBaseline = 'middle';
+                    ctx.fillStyle = '#ffffff';
+                    ctx.fillText(card.emoji, 0, 0);
+
+                    // Si está escaneando, mostrar destello de "escaneo"
+                    if (scanning) {
+                        ctx.font = '14px Arial';
+                        ctx.fillStyle = 'rgba(255, 200, 100, 0.8)';
+                        ctx.fillText('📸', s * 0.6, -s * 0.6);
+                    }
+
+                    ctx.restore();
+
+                    // Actualizar posición y rotación
+                    card.x += card.dx;
+                    card.y += card.dy;
+                    card.rotation += card.rotSpeed;
+
+                    // Rebote en bordes
+                    if (card.x <= 0 || card.x >= W - card.size) card.dx *= -1;
+                    if (card.y <= 0 || card.y >= H - card.size) card.dy *= -1;
+                });
+
+                // Si está escaneando, mostrar texto de "Escaneando..."
+                if (scanning) {
+                    ctx.font = 'bold 22px Inter, Arial';
+                    ctx.fillStyle = '#ffcc44';
+                    ctx.textAlign = 'center';
+                    ctx.textBaseline = 'bottom';
+                    const dots = '.'.repeat(Math.floor(Date.now() / 500) % 4);
+                    ctx.fillText(`🔍 ESCANEANDO${dots}`, W / 2, H - 20);
+                }
+
+                frameId = requestAnimationFrame(drawCards);
+            }
+
+            // ====== ESCANEAR ======
+            function toggleScan() {
+                scanning = !scanning;
+                const btn = document.getElementById('scanBtn');
+                if (scanning) {
+                    btn.textContent = '⏹️ Detener escaneo';
+                    btn.classList.add('scanning');
+                    // Hacer que las cartas se muevan más rápido
+                    cards.forEach(c => {
+                        c.dx *= 1.3;
+                        c.dy *= 1.3;
+                        c.rotSpeed *= 1.5;
+                    });
+                } else {
+                    btn.textContent = '🔍 Escanear carta';
+                    btn.classList.remove('scanning');
+                    // Volver a velocidad normal
+                    cards.forEach(c => {
+                        if (Math.abs(c.dx) > 2.5) c.dx *= 0.8;
+                        if (Math.abs(c.dy) > 2.5) c.dy *= 0.8;
+                        if (Math.abs(c.rotSpeed) > 0.03) c.rotSpeed *= 0.8;
+                    });
+                }
+            }
+
+            // ====== INICIALIZAR ======
+            function init() {
+                resize();
+                initCards(16);
+                drawCards();
+                window.addEventListener('resize', () => {
+                    resize();
+                });
+                document.getElementById('scanBtn').addEventListener('click', toggleScan);
+            }
+
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', init);
+            } else {
+                init();
+            }
+        })();
+    </script>
+
+</body>
+</html>
