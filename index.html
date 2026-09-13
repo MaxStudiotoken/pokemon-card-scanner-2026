@@ -4,6 +4,10 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Pokemon Card Scanner | Escanea cartas Pokémon y descubre su valor</title>
+    
+    <!-- FAVICON (Icono de la pestaña del navegador) -->
+    <link rel="icon" type="image/png" href="pokemon_scanner.png">
+    
     <meta name="description" content="Pokemon Card Scanner te permite escanear cartas Pokémon con la cámara, obtener su información y precio de mercado en segundos. Ideal para coleccionistas." />
     <meta name="keywords" content="Pokémon, cartas, escáner, valor, coleccionismo, precios, Pokemon Card Scanner" />
     <link rel="canonical" href="https://MaxStudiotoken.github.io/pokemon-card-scanner/" />
@@ -381,6 +385,101 @@
             margin-top: 10px;
         }
 
+        /* ===== SECCIÓN X FOLLOW ===== */
+        .x-follow {
+            background: linear-gradient(145deg, #000000, #141414);
+            border: 1px solid rgba(255, 204, 0, 0.2);
+            border-radius: 28px;
+            padding: 45px 30px;
+            margin: 50px auto 30px;
+            max-width: 1100px;
+            text-align: center;
+            box-shadow: 0 0 60px rgba(255, 204, 0, 0.06);
+        }
+        .x-follow .x-logo {
+            font-size: 60px;
+            font-weight: 900;
+            color: #ffffff;
+            line-height: 1;
+            margin-bottom: 15px;
+            text-shadow: 0 0 25px rgba(255, 255, 255, 0.4);
+        }
+        .x-follow h2 {
+            font-size: 2rem;
+            font-weight: 800;
+            color: #ffffff;
+            margin-bottom: 12px;
+        }
+        .x-follow p {
+            color: #b0b0c0;
+            line-height: 1.7;
+            font-size: 1.05rem;
+            max-width: 620px;
+            margin: 0 auto 22px;
+        }
+        .x-handle {
+            display: inline-block;
+            color: #ffcc00;
+            font-weight: 800;
+            font-size: 1.2rem;
+            text-decoration: none;
+            border-bottom: 1px dashed rgba(255, 204, 0, 0.5);
+            padding-bottom: 3px;
+            margin-bottom: 22px;
+            transition: 0.25s;
+        }
+        .x-handle:hover {
+            color: #ffffff;
+            border-color: #ffffff;
+        }
+        .x-buttons {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        .btn-x {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            color: #000000;
+            background: #ffffff;
+            padding: 14px 28px;
+            border-radius: 50px;
+            font-weight: 800;
+            text-decoration: none;
+            font-size: 1rem;
+            transition: 0.25s;
+            box-shadow: 0 0 25px rgba(255, 255, 255, 0.25);
+            border: none;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+        }
+        .btn-x:hover {
+            transform: translateY(-3px) scale(1.04);
+            box-shadow: 0 0 40px rgba(255, 255, 255, 0.5);
+        }
+        .btn-share-x {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            color: #ffffff;
+            background: #000000;
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            padding: 14px 28px;
+            border-radius: 50px;
+            font-weight: 800;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: 0.25s;
+            font-family: 'Inter', sans-serif;
+        }
+        .btn-share-x:hover {
+            transform: translateY(-3px) scale(1.04);
+            box-shadow: 0 0 40px rgba(255, 204, 0, 0.4);
+            border-color: #ffcc00;
+        }
+
         /* ===== FOOTER ===== */
         footer {
             margin-top: 60px;
@@ -421,6 +520,15 @@
             .lang-switcher span {
                 font-size: 0.8rem;
                 padding: 2px 8px;
+            }
+            .btn-x, .btn-share-x {
+                padding: 12px 20px;
+                font-size: 0.9rem;
+                width: 100%;
+                justify-content: center;
+            }
+            .x-follow h2 {
+                font-size: 1.5rem;
             }
         }
 
@@ -551,6 +659,22 @@
             <p class="author" data-i18n="quote_author">— Pokemon Card Scanner Team</p>
         </div>
 
+        <!-- ====== SECCIÓN X FOLLOW ====== -->
+        <div class="x-follow">
+            <div class="x-logo">𝕏</div>
+            <h2 data-i18n="x_title">Síguenos en X</h2>
+            <p data-i18n="x_text">No te pierdas las últimas noticias, actualizaciones y novedades de Pokemon Card Scanner. Sigue a MaxStudio en X para estar al día.</p>
+            <a href="https://x.com/hellofiti" target="_blank" rel="noopener noreferrer" class="x-handle">@hellofiti</a>
+            <div class="x-buttons">
+                <a href="https://x.com/hellofiti" target="_blank" rel="noopener noreferrer" class="btn-x">
+                    𝕏 <span data-i18n="x_follow_btn">Seguir a MaxStudio en X</span>
+                </a>
+                <button class="btn-share-x" onclick="shareOnX()">
+                    𝕏 <span data-i18n="x_share_btn">Compartir esta página en X</span>
+                </button>
+            </div>
+        </div>
+
     </div>
 
     <!-- ====== FOOTER ====== -->
@@ -606,7 +730,12 @@
                 quote_text: '"Cada carta tiene una historia, y ahora también un valor. Descubre el tuyo con un solo escaneo."',
                 quote_author: "— Pokemon Card Scanner Team",
                 footer_copy: "© 2026 <strong style='color:#ffcc00;'>Pokemon Card Scanner</strong> · Escáner de cartas Pokémon",
-                footer_made: "Hecho con ❤️ por <a href='https://MaxStudiotoken.github.io/maxstudio/'>MaxStudio</a>"
+                footer_made: "Hecho con ❤️ por <a href='https://MaxStudiotoken.github.io/maxstudio/'>MaxStudio</a>",
+                x_title: "Síguenos en X",
+                x_text: "No te pierdas las últimas noticias, actualizaciones y novedades de Pokemon Card Scanner. Sigue a MaxStudio en X para estar al día.",
+                x_follow_btn: "Seguir a MaxStudio en X",
+                x_share_btn: "Compartir esta página en X",
+                x_share_text: "¡Descubre Pokemon Card Scanner! Escanea cartas Pokémon y descubre su valor real en segundos. 🃏💰"
             },
             en: {
                 title: "🃏 Pokemon Card Scanner",
@@ -645,7 +774,12 @@
                 quote_text: '"Every card has a story, and now also a value. Discover yours with a single scan."',
                 quote_author: "— Pokemon Card Scanner Team",
                 footer_copy: "© 2026 <strong style='color:#ffcc00;'>Pokemon Card Scanner</strong> · Pokémon Card Scanner",
-                footer_made: "Made with ❤️ by <a href='https://MaxStudiotoken.github.io/maxstudio/'>MaxStudio</a>"
+                footer_made: "Made with ❤️ by <a href='https://MaxStudiotoken.github.io/maxstudio/'>MaxStudio</a>",
+                x_title: "Follow us on X",
+                x_text: "Don't miss the latest news, updates and novelties from Pokemon Card Scanner. Follow MaxStudio on X to stay up to date.",
+                x_follow_btn: "Follow MaxStudio on X",
+                x_share_btn: "Share this page on X",
+                x_share_text: "Check out Pokemon Card Scanner! Scan Pokémon cards and discover their real value in seconds. 🃏💰"
             },
             fr: {
                 title: "🃏 Pokemon Card Scanner",
@@ -684,7 +818,12 @@
                 quote_text: '"Chaque carte a une histoire, et maintenant aussi une valeur. Découvrez la vôtre en un seul scan."',
                 quote_author: "— Équipe Pokemon Card Scanner",
                 footer_copy: "© 2026 <strong style='color:#ffcc00;'>Pokemon Card Scanner</strong> · Scanner de cartes Pokémon",
-                footer_made: "Fait avec ❤️ par <a href='https://MaxStudiotoken.github.io/maxstudio/'>MaxStudio</a>"
+                footer_made: "Fait avec ❤️ par <a href='https://MaxStudiotoken.github.io/maxstudio/'>MaxStudio</a>",
+                x_title: "Suivez-nous sur X",
+                x_text: "Ne manquez pas les dernières nouvelles, mises à jour et nouveautés de Pokemon Card Scanner. Suivez MaxStudio sur X pour rester informé.",
+                x_follow_btn: "Suivre MaxStudio sur X",
+                x_share_btn: "Partager cette page sur X",
+                x_share_text: "Découvrez Pokemon Card Scanner ! Scannez les cartes Pokémon et découvrez leur vraie valeur en quelques secondes. 🃏💰"
             },
             it: {
                 title: "🃏 Pokemon Card Scanner",
@@ -723,7 +862,12 @@
                 quote_text: '"Ogni carta ha una storia, e ora anche un valore. Scopri il tuo con un solo scan."',
                 quote_author: "— Team Pokemon Card Scanner",
                 footer_copy: "© 2026 <strong style='color:#ffcc00;'>Pokemon Card Scanner</strong> · Scanner di carte Pokémon",
-                footer_made: "Fatto con ❤️ da <a href='https://MaxStudiotoken.github.io/maxstudio/'>MaxStudio</a>"
+                footer_made: "Fatto con ❤️ da <a href='https://MaxStudiotoken.github.io/maxstudio/'>MaxStudio</a>",
+                x_title: "Seguici su X",
+                x_text: "Non perderti le ultime notizie, aggiornamenti e novità di Pokemon Card Scanner. Segui MaxStudio su X per rimanere aggiornato.",
+                x_follow_btn: "Segui MaxStudio su X",
+                x_share_btn: "Condividi questa pagina su X",
+                x_share_text: "Scopri Pokemon Card Scanner! Scansiona le carte Pokémon e scopri il loro vero valore in pochi secondi. 🃏💰"
             },
             zh: {
                 title: "🃏 Pokemon Card Scanner",
@@ -762,7 +906,12 @@
                 quote_text: '"每张卡牌都有一个故事，现在也有一个价值。一次扫描发现您的价值。"',
                 quote_author: "— 宝可梦卡牌扫描器团队",
                 footer_copy: "© 2026 <strong style='color:#ffcc00;'>宝可梦卡牌扫描器</strong> · 宝可梦卡牌扫描器",
-                footer_made: "用心制作 ❤️ 来自 <a href='https://MaxStudiotoken.github.io/maxstudio/'>MaxStudio</a>"
+                footer_made: "用心制作 ❤️ 来自 <a href='https://MaxStudiotoken.github.io/maxstudio/'>MaxStudio</a>",
+                x_title: "在 X 上关注我们",
+                x_text: "不要错过 Pokemon Card Scanner 的最新消息、更新和动态。在 X 上关注 MaxStudio，随时了解最新动态。",
+                x_follow_btn: "在 X 上关注 MaxStudio",
+                x_share_btn: "在 X 上分享此页面",
+                x_share_text: "快来看看 Pokemon Card Scanner！扫描宝可梦卡牌，几秒钟内发现它们的真实价值。🃏💰"
             },
             ru: {
                 title: "🃏 Pokemon Card Scanner",
@@ -801,7 +950,12 @@
                 quote_text: '"У каждой карты есть история, и теперь также есть цена. Узнайте свою за одно сканирование."',
                 quote_author: "— Команда Pokemon Card Scanner",
                 footer_copy: "© 2026 <strong style='color:#ffcc00;'>Pokemon Card Scanner</strong> · Сканер карт Pokémon",
-                footer_made: "Сделано с ❤️ от <a href='https://MaxStudiotoken.github.io/maxstudio/'>MaxStudio</a>"
+                footer_made: "Сделано с ❤️ от <a href='https://MaxStudiotoken.github.io/maxstudio/'>MaxStudio</a>",
+                x_title: "Подписывайтесь на X",
+                x_text: "Не пропустите последние новости, обновления и новинки Pokemon Card Scanner. Подписывайтесь на MaxStudio в X, чтобы быть в курсе.",
+                x_follow_btn: "Подписаться на MaxStudio в X",
+                x_share_btn: "Поделиться этой страницей в X",
+                x_share_text: "Посмотрите Pokemon Card Scanner! Сканируйте карты Pokémon и узнайте их реальную стоимость за секунды. 🃏💰"
             },
             de: {
                 title: "🃏 Pokemon Card Scanner",
@@ -840,7 +994,12 @@
                 quote_text: '"Jede Karte hat eine Geschichte, und jetzt auch einen Wert. Entdecken Sie Ihren mit einem einzigen Scan."',
                 quote_author: "— Pokemon Card Scanner Team",
                 footer_copy: "© 2026 <strong style='color:#ffcc00;'>Pokemon Card Scanner</strong> · Pokémon-Karten-Scanner",
-                footer_made: "Mit ❤️ gemacht von <a href='https://MaxStudiotoken.github.io/maxstudio/'>MaxStudio</a>"
+                footer_made: "Mit ❤️ gemacht von <a href='https://MaxStudiotoken.github.io/maxstudio/'>MaxStudio</a>",
+                x_title: "Folge uns auf X",
+                x_text: "Verpasse keine Neuigkeiten, Updates und Neuerungen von Pokemon Card Scanner. Folge MaxStudio auf X, um auf dem Laufenden zu bleiben.",
+                x_follow_btn: "MaxStudio auf X folgen",
+                x_share_btn: "Diese Seite auf X teilen",
+                x_share_text: "Entdecke Pokemon Card Scanner! Scanne Pokémon-Karten und entdecke ihren echten Wert in Sekunden. 🃏💰"
             },
             pt: {
                 title: "🃏 Pokemon Card Scanner",
@@ -879,7 +1038,12 @@
                 quote_text: '"Cada carta tem uma história, e agora também um valor. Descubra a sua com uma única digitalização."',
                 quote_author: "— Equipe Pokemon Card Scanner",
                 footer_copy: "© 2026 <strong style='color:#ffcc00;'>Pokemon Card Scanner</strong> · Digitalizador de cartas Pokémon",
-                footer_made: "Feito com ❤️ por <a href='https://MaxStudiotoken.github.io/maxstudio/'>MaxStudio</a>"
+                footer_made: "Feito com ❤️ por <a href='https://MaxStudiotoken.github.io/maxstudio/'>MaxStudio</a>",
+                x_title: "Siga-nos no X",
+                x_text: "Não perca as últimas notícias, atualizações e novidades do Pokemon Card Scanner. Siga a MaxStudio no X para ficar por dentro.",
+                x_follow_btn: "Seguir a MaxStudio no X",
+                x_share_btn: "Compartilhar esta página no X",
+                x_share_text: "Confira o Pokemon Card Scanner! Digitalize cartas Pokémon e descubra seu valor real em segundos. 🃏💰"
             }
         };
 
@@ -921,6 +1085,19 @@
                 }
             });
         });
+
+        // ==================== COMPARTIR EN X ====================
+        function shareOnX() {
+            const lang = document.documentElement.lang || 'es';
+            const text = translations[lang]?.x_share_text || translations.es.x_share_text;
+            const url = window.location.href;
+            const shareUrl = "https://twitter.com/intent/tweet?text="
+                + encodeURIComponent(text)
+                + "&url="
+                + encodeURIComponent(url)
+                + "&via=hellofiti";
+            window.open(shareUrl, "_blank", "width=600,height=500");
+        }
 
         // ==================== ANIMACIÓN DE CARTAS ====================
         (function() {
